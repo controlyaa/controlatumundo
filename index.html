@@ -3,805 +3,344 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Controla Tu Mundo – Controles Remotos Smart TV</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Controla Tu Mundo | Controles Remotos Smart TV – Zona Oeste</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --black: #0a0a0f;
-    --dark: #111118;
-    --card: #16161f;
-    --border: #24242f;
-    --accent: #00d4ff;
-    --accent2: #0099cc;
-    --green: #00e676;
-    --text: #e8e8f0;
-    --muted: #7a7a9a;
-    --white: #ffffff;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--black);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    overflow-x: hidden;
-  }
-
-  /* === NAVBAR === */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 48px;
-    background: rgba(10,10,15,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-  }
-
-  .logo-icon {
-    width: 42px;
-    height: 42px;
-    position: relative;
-  }
-
-  .logo-text {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 18px;
-    color: var(--white);
-    line-height: 1.1;
-  }
-
-  .logo-text span {
-    display: block;
-    font-size: 11px;
-    font-weight: 400;
-    color: var(--muted);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-
-  .nav-cta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--green);
-    color: #000;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 14px;
-    padding: 10px 22px;
-    border-radius: 100px;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,230,118,0.3); }
-
-  /* === HERO === */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 120px 48px 80px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 50% at 70% 50%, rgba(0,212,255,0.08) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(0,153,204,0.06) 0%, transparent 60%);
-  }
-
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 80% at 70% 50%, black, transparent);
-  }
-
-  .hero-content {
-    max-width: 1100px;
-    margin: 0 auto;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-    position: relative;
-    z-index: 1;
-  }
-
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(0,212,255,0.1);
-    border: 1px solid rgba(0,212,255,0.25);
-    color: var(--accent);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 6px 14px;
-    border-radius: 100px;
-    margin-bottom: 28px;
-  }
-
-  .badge-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(42px, 5vw, 64px);
-    font-weight: 800;
-    line-height: 1.05;
-    color: var(--white);
-    margin-bottom: 20px;
-  }
-
-  h1 em {
-    font-style: normal;
-    color: var(--accent);
-    display: block;
-  }
-
-  .hero-desc {
-    color: var(--muted);
-    font-size: 17px;
-    line-height: 1.7;
-    margin-bottom: 40px;
-    font-weight: 300;
-  }
-
-  .hero-buttons {
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--green);
-    color: #000;
-    font-weight: 700;
-    font-size: 15px;
-    padding: 15px 30px;
-    border-radius: 12px;
-    text-decoration: none;
-    transition: all 0.25s;
-    box-shadow: 0 4px 20px rgba(0,230,118,0.25);
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,230,118,0.4); }
-
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: transparent;
-    color: var(--text);
-    font-weight: 500;
-    font-size: 15px;
-    padding: 15px 28px;
-    border-radius: 12px;
-    text-decoration: none;
-    border: 1px solid var(--border);
-    transition: all 0.25s;
-  }
-  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-
-  /* Remote Visual */
-  .remote-visual {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .remote-wrapper {
-    position: relative;
-    animation: float 4s ease-in-out infinite;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-16px); }
-  }
-
-  .remote-glow {
-    position: absolute;
-    inset: -40px;
-    background: radial-gradient(circle, rgba(0,212,255,0.15) 0%, transparent 70%);
-    filter: blur(20px);
-    pointer-events: none;
-  }
-
-  /* SVG Remote */
-  .remote-svg {
-    filter: drop-shadow(0 20px 60px rgba(0,212,255,0.3)) drop-shadow(0 0 120px rgba(0,212,255,0.1));
-  }
-
-  /* === STATS === */
-  .stats-bar {
-    background: var(--card);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 32px 48px;
-  }
-
-  .stats-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 24px;
-  }
-
-  .stat {
-    text-align: center;
-  }
-
-  .stat-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 32px;
-    font-weight: 800;
-    color: var(--accent);
-    display: block;
-  }
-
-  .stat-label {
-    font-size: 13px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  /* === SECTIONS === */
-  section {
-    padding: 96px 48px;
-  }
-
-  .section-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .section-tag {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 16px;
-  }
-
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(28px, 3vw, 40px);
-    font-weight: 700;
-    color: var(--white);
-    margin-bottom: 16px;
-    line-height: 1.15;
-  }
-
-  .section-desc {
-    color: var(--muted);
-    font-size: 16px;
-    max-width: 520px;
-    line-height: 1.7;
-    margin-bottom: 56px;
-  }
-
-  /* === BRANDS GRID === */
-  .brands-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-
-  .brand-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    transition: all 0.3s;
-    cursor: default;
-  }
-
-  .brand-card:hover {
-    border-color: rgba(0,212,255,0.4);
-    background: rgba(0,212,255,0.04);
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
-  }
-
-  .brand-icon {
-    width: 48px; height: 48px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    background: rgba(0,212,255,0.1);
-    border: 1px solid rgba(0,212,255,0.15);
-  }
-
-  .brand-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    color: var(--white);
-  }
-
-  .brand-desc {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-
-  /* === FORM SECTION === */
-  .form-section {
-    background: var(--dark);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .form-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
-  }
-
-  .form-info {
-    padding-top: 16px;
-  }
-
-  .steps {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    margin-top: 40px;
-  }
-
-  .step {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-  }
-
-  .step-num {
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    background: rgba(0,212,255,0.12);
-    border: 1px solid rgba(0,212,255,0.3);
-    color: var(--accent);
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-
-  .step-text strong {
-    display: block;
-    color: var(--white);
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-
-  .step-text span {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-
-  /* Form */
-  .contact-form {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 36px;
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-
-  .form-group label {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .form-group input,
-  .form-group textarea {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 16px;
-    color: var(--white);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    outline: none;
-    transition: border-color 0.2s;
-    resize: none;
-  }
-
-  .form-group input:focus,
-  .form-group textarea:focus {
-    border-color: var(--accent);
-    background: rgba(0,212,255,0.04);
-  }
-
-  .form-group input::placeholder,
-  .form-group textarea::placeholder { color: #444460; }
-
-  .form-note {
-    background: rgba(0,230,118,0.07);
-    border: 1px solid rgba(0,230,118,0.2);
-    border-radius: 10px;
-    padding: 14px 16px;
-    font-size: 13px;
-    color: #5dffa0;
-    margin-bottom: 20px;
-    line-height: 1.5;
-  }
-
-  .btn-submit {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background: var(--green);
-    color: #000;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    padding: 16px;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.25s;
-    text-decoration: none;
-  }
-  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,230,118,0.35); }
-
-  /* === PAYMENT === */
-  .payment-section {
-    background: var(--black);
-  }
-
-  .payment-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: start;
-  }
-
-  .payment-form {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 36px;
-  }
-
-  .payment-info {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding-top: 16px;
-  }
-
-  .pay-feature {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-    padding: 20px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-  }
-
-  .pay-icon {
-    font-size: 22px;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-
-  .pay-feature strong { color: var(--white); font-weight: 600; display: block; margin-bottom: 4px; }
-  .pay-feature span { font-size: 13px; color: var(--muted); line-height: 1.5; }
-
-  .mp-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(0,158,255,0.1);
-    border: 1px solid rgba(0,158,255,0.25);
-    border-radius: 100px;
-    padding: 8px 18px;
-    margin-bottom: 24px;
-    font-size: 13px;
-    color: #4db8ff;
-    font-weight: 600;
-  }
-
-  /* === FOOTER === */
-  footer {
-    background: var(--dark);
-    border-top: 1px solid var(--border);
-    padding: 48px;
-    text-align: center;
-  }
-
-  .footer-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 20px;
-    color: var(--white);
-    margin-bottom: 8px;
-  }
-
-  .footer-sub {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 28px;
-  }
-
-  .footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 32px;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-  }
-
-  .footer-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.2s;
-  }
-
-  .footer-links a:hover { color: var(--accent); }
-
-  .footer-copy {
-    font-size: 12px;
-    color: #3a3a5a;
-  }
-
-  /* === RESPONSIVE === */
-  @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
-    .hero { padding: 100px 24px 60px; }
-    .hero-content { grid-template-columns: 1fr; gap: 40px; }
-    .remote-visual { order: -1; }
-    section { padding: 64px 24px; }
-    .brands-grid { grid-template-columns: repeat(2, 1fr); }
-    .form-layout, .payment-layout { grid-template-columns: 1fr; gap: 40px; }
-    .form-row { grid-template-columns: 1fr; }
-    .stats-bar { padding: 24px; }
-    footer { padding: 40px 24px; }
-  }
-
-  /* fade-in */
-  .fade-up {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .fade-up.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+:root {
+  --black:#030810; --dark:#060d1a; --card:#081020; --border:#1a2a40;
+  --cyan:#00d4ff; --blue:#0062ff; --green:#00e676;
+  --text:#dce8f5; --muted:#4a6a8a; --white:#ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:14px 48px;background:rgba(3,8,16,.82);backdrop-filter:blur(22px);border-bottom:1px solid rgba(0,212,255,.1);}
+.nav-logo{display:flex;align-items:center;gap:14px;text-decoration:none;}
+.nav-logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;color:#fff;line-height:1.1;}
+.nav-logo-text span{display:block;font-size:10px;font-weight:400;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;margin-top:2px;}
+.nav-cta{display:flex;align-items:center;gap:8px;background:var(--green);color:#000;text-decoration:none;font-weight:700;font-size:14px;padding:10px 24px;border-radius:100px;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 20px rgba(0,230,118,.2);}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,230,118,.4);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 48px 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 65% 65% at 75% 50%,rgba(0,80,220,.14) 0%,transparent 65%),radial-gradient(ellipse 40% 50% at 15% 80%,rgba(0,212,255,.07) 0%,transparent 55%),radial-gradient(ellipse 90% 35% at 50% 105%,rgba(0,50,160,.12) 0%,transparent 60%);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.035) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 85% 85% at 72% 50%,black,transparent);}
+.hero-content{max-width:1120px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;position:relative;z-index:1;}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,.09);border:1px solid rgba(0,212,255,.22);color:var(--cyan);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:26px;}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+h1{font-family:'Syne',sans-serif;font-size:clamp(38px,4.5vw,62px);font-weight:800;line-height:1.06;color:#fff;margin-bottom:18px;}
+h1 em{font-style:normal;background:linear-gradient(90deg,#00d4ff,#0080ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-desc{color:var(--muted);font-size:16px;line-height:1.75;margin-bottom:38px;font-weight:300;max-width:440px;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--green);color:#000;font-weight:700;font-size:15px;padding:14px 28px;border-radius:12px;text-decoration:none;transition:all .25s;box-shadow:0 4px 20px rgba(0,230,118,.25);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,230,118,.4);}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--text);font-weight:500;font-size:15px;padding:14px 26px;border-radius:12px;text-decoration:none;border:1px solid var(--border);transition:all .25s;}
+.btn-secondary:hover{border-color:var(--cyan);color:var(--cyan);}
+
+/* ─── LOGO SCENE ─── */
+.hero-visual{display:flex;justify-content:center;align-items:center;}
+.logo-scene{position:relative;width:420px;height:420px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* Ambient glow */
+.globe-halo{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 40% 35%,rgba(0,180,255,.18) 0%,rgba(0,80,255,.1) 40%,transparent 70%);filter:blur(4px);animation:halo-pulse 4s ease-in-out infinite;}
+@keyframes halo-pulse{0%,100%{transform:scale(1);opacity:.7;}50%{transform:scale(1.08);opacity:1;}}
+
+/* Tilt orbit rings (decorative) */
+.orbit-ring{position:absolute;border-radius:50%;border:1px solid rgba(0,212,255,.15);pointer-events:none;}
+.orbit-ring-1{width:250px;height:250px;animation:tspin1 20s linear infinite;}
+.orbit-ring-2{width:330px;height:330px;animation:tspin2 28s linear infinite reverse;}
+.orbit-ring-3{width:410px;height:410px;animation:tspin3 38s linear infinite;}
+@keyframes tspin1{from{transform:rotateX(72deg) rotateZ(0)}to{transform:rotateX(72deg) rotateZ(360deg)}}
+@keyframes tspin2{from{transform:rotateX(66deg) rotateZ(0)}to{transform:rotateX(66deg) rotateZ(360deg)}}
+@keyframes tspin3{from{transform:rotateX(60deg) rotateZ(0)}to{transform:rotateX(60deg) rotateZ(360deg)}}
+
+/* Orbit wrapper – rotates on orbit plane, icon counter-rotates to stay upright */
+.ro{position:absolute;top:50%;left:50%;width:0;height:0;}
+.ro .ri{position:absolute;filter:drop-shadow(0 0 7px rgba(0,180,255,.75));}
+
+/* Orbit 1 – r=125px, 3 remotes, 18s CCW */
+.ro1{--r:125px;--d:18s;--delay:0s;animation:oc var(--d) linear var(--delay) infinite;}
+.ro2{--r:125px;--d:18s;--delay:-6s;animation:oc var(--d) linear var(--delay) infinite;}
+.ro3{--r:125px;--d:18s;--delay:-12s;animation:oc var(--d) linear var(--delay) infinite;}
+.ro1 .ri,.ro2 .ri,.ro3 .ri{animation:cc 18s linear var(--delay) infinite;}
+
+/* Orbit 2 – r=165px, 4 remotes, 26s CW */
+.ro4{--r:165px;--d:26s;--delay:0s;animation:ow var(--d) linear var(--delay) infinite;}
+.ro5{--r:165px;--d:26s;--delay:-6.5s;animation:ow var(--d) linear var(--delay) infinite;}
+.ro6{--r:165px;--d:26s;--delay:-13s;animation:ow var(--d) linear var(--delay) infinite;}
+.ro7{--r:165px;--d:26s;--delay:-19.5s;animation:ow var(--d) linear var(--delay) infinite;}
+.ro4 .ri,.ro5 .ri,.ro6 .ri,.ro7 .ri{animation:cw 26s linear var(--delay) infinite;}
+
+/* Orbit 3 – r=205px, 5 remotes, 36s CCW */
+.ro8{--r:205px;--d:36s;--delay:0s;animation:oc var(--d) linear var(--delay) infinite;}
+.ro9{--r:205px;--d:36s;--delay:-7.2s;animation:oc var(--d) linear var(--delay) infinite;}
+.ro10{--r:205px;--d:36s;--delay:-14.4s;animation:oc var(--d) linear var(--delay) infinite;}
+.ro11{--r:205px;--d:36s;--delay:-21.6s;animation:oc var(--d) linear var(--delay) infinite;}
+.ro12{--r:205px;--d:36s;--delay:-28.8s;animation:oc var(--d) linear var(--delay) infinite;}
+.ro8 .ri,.ro9 .ri,.ro10 .ri,.ro11 .ri,.ro12 .ri{animation:cc 36s linear var(--delay) infinite;}
+
+/* Orbit keyframes */
+@keyframes oc{from{transform:rotate(0deg) translateX(var(--r));}to{transform:rotate(-360deg) translateX(var(--r));}}
+@keyframes ow{from{transform:rotate(0deg) translateX(var(--r));}to{transform:rotate(360deg) translateX(var(--r));}}
+@keyframes cc{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes cw{from{transform:rotate(0deg);}to{transform:rotate(-360deg);}}
+
+/* Globe center */
+.globe-center{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;}
+.globe-svg{width:165px;height:165px;filter:drop-shadow(0 0 28px rgba(0,160,255,.55)) drop-shadow(0 0 55px rgba(0,80,255,.3));animation:gfloat 5s ease-in-out infinite;}
+@keyframes gfloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-11px);}}
+
+.logo-text-block{text-align:center;margin-top:8px;}
+.logo-text-block .lt1{font-family:'Syne',sans-serif;font-weight:800;font-size:26px;letter-spacing:.06em;background:linear-gradient(90deg,#fff 20%,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;display:block;}
+.logo-text-block .lt2{font-family:'Syne',sans-serif;font-weight:600;font-size:12px;color:var(--cyan);letter-spacing:.38em;text-transform:uppercase;display:block;margin-top:3px;}
+.logo-text-block .lt2::before,.logo-text-block .lt2::after{content:'─';opacity:.35;margin:0 5px;}
+
+/* STATS */
+.stats-bar{background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:28px 48px;}
+.stats-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-around;flex-wrap:wrap;gap:20px;}
+.stat{text-align:center;}
+.stat-num{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;color:var(--cyan);display:block;line-height:1;}
+.stat-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:4px;display:block;}
+
+/* SECTIONS */
+section{padding:88px 48px;}
+.section-inner{max-width:1100px;margin:0 auto;}
+.section-tag{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;}
+.section-title{font-family:'Syne',sans-serif;font-size:clamp(26px,3vw,38px);font-weight:700;color:#fff;margin-bottom:14px;line-height:1.15;}
+.section-desc{color:var(--muted);font-size:15px;max-width:500px;line-height:1.75;margin-bottom:52px;}
+
+/* BRANDS */
+.brands-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.brand-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px 22px;display:flex;flex-direction:column;gap:10px;transition:all .3s;}
+.brand-card:hover{border-color:rgba(0,212,255,.45);background:rgba(0,212,255,.04);transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.5);}
+.brand-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(0,212,255,.09);border:1px solid rgba(0,212,255,.14);}
+.brand-name{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff;}
+.brand-desc{font-size:13px;color:var(--muted);line-height:1.55;}
+
+/* FORM */
+.form-section{background:var(--dark);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.form-layout{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
+.steps{display:flex;flex-direction:column;gap:22px;margin-top:38px;}
+.step{display:flex;gap:14px;align-items:flex-start;}
+.step-num{width:30px;height:30px;border-radius:50%;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:var(--cyan);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.step-text strong{display:block;color:#fff;font-weight:600;margin-bottom:3px;}
+.step-text span{font-size:13px;color:var(--muted);line-height:1.55;}
+.contact-form{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:34px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-group{display:flex;flex-direction:column;gap:7px;margin-bottom:12px;}
+.form-group label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.form-group input,.form-group textarea{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;resize:none;}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--cyan);background:rgba(0,212,255,.04);}
+.form-group input::placeholder,.form-group textarea::placeholder{color:#1e3248;}
+.form-note{background:rgba(0,230,118,.06);border:1px solid rgba(0,230,118,.2);border-radius:10px;padding:12px 14px;font-size:13px;color:#4dffa0;margin-bottom:18px;line-height:1.5;}
+.btn-submit{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--green);color:#000;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;padding:15px;border-radius:12px;border:none;cursor:pointer;transition:all .25s;text-decoration:none;}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,230,118,.35);}
+
+/* PAYMENT */
+.payment-layout{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+.payment-form{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:34px;}
+.pay-feature{display:flex;gap:14px;align-items:flex-start;padding:18px;background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;}
+.pay-icon{font-size:20px;flex-shrink:0;margin-top:2px;}
+.pay-feature strong{color:#fff;font-weight:600;display:block;margin-bottom:3px;}
+.pay-feature span{font-size:13px;color:var(--muted);line-height:1.5;}
+.mp-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(0,100,255,.1);border:1px solid rgba(0,100,255,.25);border-radius:100px;padding:7px 16px;margin-bottom:22px;font-size:12px;color:#4db8ff;font-weight:600;}
+
+/* FOOTER */
+footer{background:var(--dark);border-top:1px solid var(--border);padding:48px;text-align:center;}
+.footer-logo-wrap{display:flex;justify-content:center;margin-bottom:12px;}
+.footer-links{display:flex;justify-content:center;gap:28px;margin-bottom:28px;flex-wrap:wrap;}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s;}
+.footer-links a:hover{color:var(--cyan);}
+.footer-copy{font-size:12px;color:#1a2e44;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:14px 20px;}
+  .hero{padding:100px 20px 60px;}
+  .hero-content{grid-template-columns:1fr;gap:48px;}
+  .hero-visual{order:-1;}
+  .logo-scene{width:300px;height:300px;}
+  .globe-svg{width:120px;height:120px;}
+  .orbit-ring-1{width:185px;height:185px;}
+  .orbit-ring-2{width:245px;height:245px;}
+  .orbit-ring-3{width:295px;height:295px;}
+  .ro1,.ro2,.ro3{--r:93px;}
+  .ro4,.ro5,.ro6,.ro7{--r:123px;}
+  .ro8,.ro9,.ro10,.ro11,.ro12{--r:148px;}
+  section{padding:60px 20px;}
+  .brands-grid{grid-template-columns:repeat(2,1fr);}
+  .form-layout,.payment-layout{grid-template-columns:1fr;gap:40px;}
+  .form-row{grid-template-columns:1fr;}
+  footer{padding:36px 20px;}
+}
+.fade-up{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
 </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
+<!-- ══════════════ NAVBAR ══════════════ -->
 <nav>
-  <a href="#" class="logo">
-    <svg class="logo-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="42" height="42" rx="10" fill="#0D0D1A"/>
-      <rect x="1" y="1" width="40" height="40" rx="9" stroke="#00d4ff" stroke-opacity="0.3" stroke-width="1"/>
-      <!-- TV screen -->
-      <rect x="6" y="9" width="30" height="19" rx="3" fill="#161626" stroke="#00d4ff" stroke-opacity="0.5" stroke-width="1.2"/>
-      <rect x="9" y="12" width="24" height="13" rx="1.5" fill="#0a0a1a"/>
-      <!-- Screen glow -->
-      <rect x="9" y="12" width="24" height="13" rx="1.5" fill="url(#screenGrad)"/>
-      <!-- Stand -->
-      <rect x="17" y="28" width="8" height="3" rx="1" fill="#00d4ff" fill-opacity="0.4"/>
-      <rect x="14" y="30.5" width="14" height="2" rx="1" fill="#00d4ff" fill-opacity="0.3"/>
-      <!-- Remote dots -->
-      <circle cx="14" cy="37" r="2" fill="#00d4ff" fill-opacity="0.8"/>
-      <circle cx="21" cy="37" r="2" fill="#00d4ff" fill-opacity="0.5"/>
-      <circle cx="28" cy="37" r="2" fill="#00d4ff" fill-opacity="0.3"/>
+  <a href="#" class="nav-logo">
+    <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+      <rect width="42" height="42" rx="10" fill="#060d1a"/>
+      <rect x=".5" y=".5" width="41" height="41" rx="9.5" stroke="url(#nbs)" stroke-opacity=".7"/>
+      <circle cx="21" cy="18" r="10" fill="url(#nf1)" stroke="url(#nf2)" stroke-width="1.1"/>
+      <ellipse cx="21" cy="18" rx="4.5" ry="10" stroke="rgba(0,212,255,.28)" stroke-width=".7" fill="none"/>
+      <line x1="11" y1="18" x2="31" y2="18" stroke="rgba(0,212,255,.28)" stroke-width=".7"/>
+      <ellipse cx="21" cy="18" rx="10" ry="5" stroke="rgba(0,212,255,.18)" stroke-width=".65" fill="none"/>
+      <path d="M17 8.5Q21 6 25 8.5" stroke="#00d4ff" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <path d="M19 6Q21 4 23 6" stroke="#00d4ff" stroke-width="1.2" fill="none" stroke-linecap="round" opacity=".55"/>
+      <rect x="27" y="27" width="8" height="13" rx="2.2" fill="#04101e" stroke="rgba(0,212,255,.45)" stroke-width=".8"/>
+      <rect x="28.5" y="28.5" width="5" height="3.5" rx=".8" fill="rgba(0,212,255,.55)"/>
+      <circle cx="31" cy="35" r="1.3" fill="rgba(0,212,255,.35)"/>
+      <circle cx="28.8" cy="37.5" r=".9" fill="rgba(0,212,255,.2)"/>
+      <circle cx="31" cy="37.5" r=".9" fill="rgba(0,212,255,.2)"/>
+      <circle cx="33.2" cy="37.5" r=".9" fill="rgba(0,212,255,.2)"/>
       <defs>
-        <linearGradient id="screenGrad" x1="9" y1="12" x2="33" y2="25" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#00d4ff" stop-opacity="0.15"/>
-          <stop offset="1" stop-color="#0055ff" stop-opacity="0.05"/>
-        </linearGradient>
+        <linearGradient id="nbs" x1="0" y1="0" x2="42" y2="42"><stop stop-color="#00d4ff"/><stop offset="1" stop-color="#0044bb"/></linearGradient>
+        <radialGradient id="nf1" cx="35%" cy="28%"><stop stop-color="#1a5099"/><stop offset="1" stop-color="#051228"/></radialGradient>
+        <linearGradient id="nf2" x1="11" y1="8" x2="31" y2="28"><stop stop-color="#00d4ff" stop-opacity=".8"/><stop offset="1" stop-color="#003daa" stop-opacity=".4"/></linearGradient>
       </defs>
     </svg>
-    <div class="logo-text">
-      Controla Tu Mundo
-      <span>Controles Remotos Smart TV</span>
-    </div>
+    <div class="nav-logo-text">Controla Tu Mundo<span>Controles Remotos Smart TV</span></div>
   </a>
   <a href="https://wa.me/5491140970446?text=Hola%20Alejandro,%20quiero%20consultar%20sobre%20controles%20remotos" target="_blank" class="nav-cta">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     WhatsApp
   </a>
 </nav>
 
-<!-- HERO -->
+<!-- ══════════════ HERO ══════════════ -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-content">
-    <div class="hero-left">
+
+    <div>
       <div class="badge"><div class="badge-dot"></div>Zona Oeste · Buenos Aires</div>
-      <h1>El control remoto<em>que necesitás.</em></h1>
-      <p class="hero-desc">Controles originales y compatibles para todas las marcas de Smart TV. Envíos sin costo en toda la Zona Oeste. Consultá ahora y recibí respuesta al instante.</p>
-      <div class="hero-buttons">
+      <h1>El control remoto<br><em>que necesitás.</em></h1>
+      <p class="hero-desc">Controles originales y compatibles para todas las marcas de Smart TV. Envíos sin costo en toda la Zona Oeste. Consultá y recibís respuesta al instante.</p>
+      <div class="hero-btns">
         <a href="https://wa.me/5491140970446?text=Hola%20Alejandro,%20quiero%20consultar%20sobre%20controles%20remotos" target="_blank" class="btn-primary">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           Consultar ahora
         </a>
-        <a href="#marcas" class="btn-secondary">
-          Ver modelos disponibles →
-        </a>
+        <a href="#marcas" class="btn-secondary">Ver modelos →</a>
       </div>
     </div>
 
-    <!-- Remote SVG Illustration -->
-    <div class="remote-visual">
-      <div class="remote-wrapper">
-        <div class="remote-glow"></div>
-        <svg class="remote-svg" width="200" height="380" viewBox="0 0 200 380" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Body shadow -->
-          <ellipse cx="100" cy="370" rx="70" ry="10" fill="rgba(0,212,255,0.15)"/>
-          <!-- Remote body -->
-          <rect x="30" y="10" width="140" height="340" rx="40" fill="url(#bodyGrad)"/>
-          <rect x="30" y="10" width="140" height="340" rx="40" stroke="url(#borderGrad)" stroke-width="1.5"/>
-          <!-- Inner glow -->
-          <rect x="34" y="14" width="132" height="332" rx="37" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-          <!-- Screen area -->
-          <rect x="48" y="40" width="104" height="64" rx="12" fill="#0a0a1f"/>
-          <rect x="48" y="40" width="104" height="64" rx="12" stroke="rgba(0,212,255,0.3)" stroke-width="1"/>
-          <!-- Screen display -->
-          <rect x="52" y="44" width="96" height="56" rx="9" fill="url(#screenGrad2)"/>
-          <!-- TV icon on screen -->
-          <text x="100" y="62" text-anchor="middle" font-size="22" fill="rgba(0,212,255,0.8)">📺</text>
-          <text x="100" y="90" text-anchor="middle" font-size="9" fill="rgba(0,212,255,0.5)" font-family="sans-serif" letter-spacing="1">SMART TV</text>
-          <!-- Power button -->
-          <circle cx="100" cy="135" r="18" fill="rgba(0,212,255,0.12)" stroke="rgba(0,212,255,0.4)" stroke-width="1.5"/>
-          <path d="M100 121 L100 131" stroke="#00d4ff" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M91 125 A12 12 0 1 0 109 125" stroke="#00d4ff" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-          <!-- Nav pad outer ring -->
-          <circle cx="100" cy="188" r="32" fill="#0d0d1f" stroke="rgba(0,212,255,0.2)" stroke-width="1.5"/>
-          <!-- Nav arrows -->
-          <polygon points="100,162 107,173 93,173" fill="rgba(0,212,255,0.5)"/>
-          <polygon points="100,214 107,203 93,203" fill="rgba(0,212,255,0.5)"/>
-          <polygon points="74,188 85,181 85,195" fill="rgba(0,212,255,0.5)"/>
-          <polygon points="126,188 115,181 115,195" fill="rgba(0,212,255,0.5)"/>
-          <!-- Center ok -->
-          <circle cx="100" cy="188" r="12" fill="rgba(0,212,255,0.15)" stroke="rgba(0,212,255,0.35)" stroke-width="1"/>
-          <text x="100" y="193" text-anchor="middle" font-size="9" fill="#00d4ff" font-family="sans-serif" font-weight="bold">OK</text>
-          <!-- Volume row -->
-          <rect x="52" y="240" width="42" height="20" rx="6" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-          <text x="73" y="254" text-anchor="middle" font-size="10" fill="rgba(200,200,220,0.6)" font-family="sans-serif">VOL</text>
-          <rect x="106" y="240" width="42" height="20" rx="6" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-          <text x="127" y="254" text-anchor="middle" font-size="10" fill="rgba(200,200,220,0.6)" font-family="sans-serif">CH</text>
-          <!-- Number buttons row 1 -->
-          <circle cx="64" cy="286" r="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-          <text x="64" y="291" text-anchor="middle" font-size="10" fill="rgba(200,200,220,0.5)" font-family="sans-serif">1</text>
-          <circle cx="100" cy="286" r="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-          <text x="100" y="291" text-anchor="middle" font-size="10" fill="rgba(200,200,220,0.5)" font-family="sans-serif">2</text>
-          <circle cx="136" cy="286" r="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-          <text x="136" y="291" text-anchor="middle" font-size="10" fill="rgba(200,200,220,0.5)" font-family="sans-serif">3</text>
-          <!-- Number buttons row 2 -->
-          <circle cx="64" cy="314" r="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-          <text x="64" y="319" text-anchor="middle" font-size="10" fill="rgba(200,200,220,0.5)" font-family="sans-serif">4</text>
-          <circle cx="100" cy="314" r="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-          <text x="100" y="319" text-anchor="middle" font-size="10" fill="rgba(200,200,220,0.5)" font-family="sans-serif">5</text>
-          <circle cx="136" cy="314" r="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-          <text x="136" y="319" text-anchor="middle" font-size="10" fill="rgba(200,200,220,0.5)" font-family="sans-serif">6</text>
-          <!-- IR sensor -->
-          <circle cx="100" cy="24" r="5" fill="rgba(255,100,100,0.3)" stroke="rgba(255,100,100,0.5)" stroke-width="1"/>
-          <!-- Signal lines -->
-          <path d="M85 360 Q100 352 115 360" stroke="rgba(0,212,255,0.3)" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
-          <defs>
-            <linearGradient id="bodyGrad" x1="30" y1="10" x2="170" y2="350" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#1a1a2e"/>
-              <stop offset="0.5" stop-color="#13131f"/>
-              <stop offset="1" stop-color="#0d0d18"/>
-            </linearGradient>
-            <linearGradient id="borderGrad" x1="30" y1="10" x2="170" y2="350" gradientUnits="userSpaceOnUse">
-              <stop stop-color="rgba(0,212,255,0.5)"/>
-              <stop offset="0.5" stop-color="rgba(0,212,255,0.15)"/>
-              <stop offset="1" stop-color="rgba(0,212,255,0.3)"/>
-            </linearGradient>
-            <linearGradient id="screenGrad2" x1="52" y1="44" x2="148" y2="100" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#0f1a3a"/>
-              <stop offset="1" stop-color="#060d1f"/>
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-    </div>
-  </div>
+    <!-- ══ LOGO SCENE ══ -->
+    <div class="hero-visual">
+      <div class="logo-scene">
+        <div class="globe-halo"></div>
+        <div class="orbit-ring orbit-ring-1"></div>
+        <div class="orbit-ring orbit-ring-2"></div>
+        <div class="orbit-ring orbit-ring-3"></div>
+
+        <!-- ── ORBIT 1: 3 remotes, r=125px, 18s CCW ── -->
+        <!-- Standard slim remote -->
+        <div class="ro ro1"><svg class="ri" style="left:-13px;top:-23px" width="26" height="46" viewBox="0 0 26 46" fill="none"><rect x="1" y="1" width="24" height="44" rx="8" fill="url(#ra)" stroke="url(#ras)" stroke-width="1.2"/><rect x="4" y="5" width="18" height="11" rx="3" fill="#050f1e" stroke="rgba(0,212,255,.38)" stroke-width=".8"/><rect x="5" y="6" width="16" height="9" rx="2" fill="url(#rag)"/><circle cx="13" cy="23" r="5.5" fill="rgba(0,212,255,.08)" stroke="rgba(0,212,255,.45)" stroke-width="1"/><polygon points="13,18.5 15.5,21.5 10.5,21.5" fill="rgba(0,212,255,.55)"/><polygon points="13,27.5 15.5,24.5 10.5,24.5" fill="rgba(0,212,255,.55)"/><polygon points="8.5,23 11.5,20.5 11.5,25.5" fill="rgba(0,212,255,.55)"/><polygon points="17.5,23 14.5,20.5 14.5,25.5" fill="rgba(0,212,255,.55)"/><circle cx="13" cy="23" r="2" fill="rgba(0,212,255,.25)"/><circle cx="8" cy="35" r="2.2" fill="rgba(0,212,255,.15)" stroke="rgba(0,212,255,.32)" stroke-width=".8"/><circle cx="13" cy="35" r="2.2" fill="rgba(0,212,255,.15)" stroke="rgba(0,212,255,.32)" stroke-width=".8"/><circle cx="18" cy="35" r="2.2" fill="rgba(0,212,255,.15)" stroke="rgba(0,212,255,.32)" stroke-width=".8"/><circle cx="8" cy="41" r="2.2" fill="rgba(0,212,255,.08)" stroke="rgba(0,212,255,.18)" stroke-width=".8"/><circle cx="13" cy="41" r="2.2" fill="rgba(0,212,255,.08)" stroke="rgba(0,212,255,.18)" stroke-width=".8"/><circle cx="18" cy="41" r="2.2" fill="rgba(0,212,255,.08)" stroke="rgba(0,212,255,.18)" stroke-width=".8"/><circle cx="13" cy="2.5" r="1.8" fill="rgba(255,70,70,.4)" stroke="rgba(255,100,100,.55)" stroke-width=".7"/><defs><linearGradient id="ra" x1="1" y1="1" x2="25" y2="45"><stop stop-color="#102244"/><stop offset="1" stop-color="#050f22"/></linearGradient><linearGradient id="ras" x1="1" y1="1" x2="25" y2="45"><stop stop-color="#00d4ff" stop-opacity=".72"/><stop offset="1" stop-color="#0044cc" stop-opacity=".28"/></linearGradient><linearGradient id="rag" x1="5" y1="6" x2="21" y2="15"><stop stop-color="#0a2860"/><stop offset="1" stop-color="#030e20"/></linearGradient></defs></svg></div>
+
+        <!-- LG Magic round -->
+        <div class="ro ro2"><svg class="ri" style="left:-10px;top:-23px" width="20" height="46" viewBox="0 0 20 46" fill="none"><rect x="1" y="1" width="18" height="44" rx="9" fill="url(#rb)" stroke="url(#rbs)" stroke-width="1.2"/><circle cx="10" cy="14" r="5.5" fill="rgba(0,212,255,.09)" stroke="rgba(0,212,255,.42)" stroke-width="1"/><path d="M10 9.5v2.5M10 18.5v2.5M5.5 14h2.5M14.5 14h-2.5" stroke="rgba(0,212,255,.58)" stroke-width="1.1" stroke-linecap="round"/><circle cx="10" cy="14" r="2.2" fill="rgba(0,212,255,.28)"/><circle cx="6.5" cy="25" r="2" fill="rgba(0,212,255,.18)" stroke="rgba(0,212,255,.35)" stroke-width=".7"/><circle cx="10" cy="25" r="2" fill="rgba(0,212,255,.18)" stroke="rgba(0,212,255,.35)" stroke-width=".7"/><circle cx="13.5" cy="25" r="2" fill="rgba(0,212,255,.18)" stroke="rgba(0,212,255,.35)" stroke-width=".7"/><circle cx="6.5" cy="31" r="2" fill="rgba(0,212,255,.1)" stroke="rgba(0,212,255,.2)" stroke-width=".7"/><circle cx="10" cy="31" r="2" fill="rgba(0,212,255,.1)" stroke="rgba(0,212,255,.2)" stroke-width=".7"/><circle cx="13.5" cy="31" r="2" fill="rgba(0,212,255,.1)" stroke="rgba(0,212,255,.2)" stroke-width=".7"/><circle cx="6.5" cy="37" r="2" fill="rgba(0,212,255,.06)" stroke="rgba(0,212,255,.13)" stroke-width=".7"/><circle cx="10" cy="37" r="2" fill="rgba(0,212,255,.06)" stroke="rgba(0,212,255,.13)" stroke-width=".7"/><circle cx="13.5" cy="37" r="2" fill="rgba(0,212,255,.06)" stroke="rgba(0,212,255,.13)" stroke-width=".7"/><rect x="4" y="42" width="12" height="3" rx="1.5" fill="rgba(0,212,255,.06)" stroke="rgba(0,212,255,.14)" stroke-width=".7"/><circle cx="10" cy="2.5" r="1.8" fill="rgba(255,70,70,.4)" stroke="rgba(255,100,100,.5)" stroke-width=".7"/><defs><linearGradient id="rb" x1="1" y1="1" x2="19" y2="45"><stop stop-color="#152840"/><stop offset="1" stop-color="#060f22"/></linearGradient><linearGradient id="rbs" x1="1" y1="1" x2="19" y2="45"><stop stop-color="#00d4ff" stop-opacity=".65"/><stop offset="1" stop-color="#0055cc" stop-opacity=".25"/></linearGradient></defs></svg></div>
+
+        <!-- Samsung wide -->
+        <div class="ro ro3"><svg class="ri" style="left:-13px;top:-20px" width="26" height="40" viewBox="0 0 26 40" fill="none"><rect x="1" y="1" width="24" height="38" rx="7" fill="url(#rc)" stroke="url(#rcs)" stroke-width="1.2"/><rect x="4" y="5" width="18" height="10" rx="2.5" fill="#040e1e" stroke="rgba(0,212,255,.32)" stroke-width=".7"/><circle cx="13" cy="22" r="6" fill="rgba(0,212,255,.07)" stroke="rgba(0,212,255,.42)" stroke-width="1"/><circle cx="13" cy="22" r="2.5" fill="rgba(0,212,255,.2)" stroke="rgba(0,212,255,.48)" stroke-width=".8"/><path d="M13 16v3M13 28v3M7 22h3M19 22h-3" stroke="rgba(0,212,255,.48)" stroke-width="1" stroke-linecap="round"/><rect x="4" y="32" width="8" height="5" rx="1.5" fill="rgba(0,212,255,.08)" stroke="rgba(0,212,255,.2)" stroke-width=".7"/><rect x="14" y="32" width="8" height="5" rx="1.5" fill="rgba(0,212,255,.08)" stroke="rgba(0,212,255,.2)" stroke-width=".7"/><defs><linearGradient id="rc" x1="1" y1="1" x2="25" y2="39"><stop stop-color="#0d2040"/><stop offset="1" stop-color="#050f20"/></linearGradient><linearGradient id="rcs" x1="1" y1="1" x2="25" y2="39"><stop stop-color="#00aaff" stop-opacity=".7"/><stop offset="1" stop-color="#003388" stop-opacity=".28"/></linearGradient></defs></svg></div>
+
+        <!-- ── ORBIT 2: 4 remotes, r=165px, 26s CW ── -->
+        <!-- TCL Roku -->
+        <div class="ro ro4"><svg class="ri" style="left:-11px;top:-18px" width="22" height="36" viewBox="0 0 22 36" fill="none"><rect x="1" y="1" width="20" height="34" rx="6" fill="url(#rd)" stroke="url(#rds)" stroke-width="1.2"/><rect x="4" y="4" width="14" height="9" rx="2" fill="#040c18" stroke="rgba(0,180,255,.3)" stroke-width=".7"/><circle cx="11" cy="19" r="5" fill="rgba(0,180,255,.08)" stroke="rgba(0,180,255,.4)" stroke-width="1"/><path d="M11 14.5v2.5M11 23.5v2M6.5 19h2.5M15.5 19h-2.5" stroke="rgba(0,180,255,.52)" stroke-width="1" stroke-linecap="round"/><circle cx="11" cy="19" r="2" fill="rgba(0,180,255,.22)"/><circle cx="7" cy="29" r="2" fill="rgba(0,180,255,.14)" stroke="rgba(0,180,255,.28)" stroke-width=".7"/><circle cx="11" cy="29" r="2" fill="#00b4ff" fill-opacity=".2" stroke="rgba(0,180,255,.42)" stroke-width=".7"/><circle cx="15" cy="29" r="2" fill="rgba(0,180,255,.14)" stroke="rgba(0,180,255,.28)" stroke-width=".7"/><defs><linearGradient id="rd" x1="1" y1="1" x2="21" y2="35"><stop stop-color="#0e1e38"/><stop offset="1" stop-color="#050c1a"/></linearGradient><linearGradient id="rds" x1="1" y1="1" x2="21" y2="35"><stop stop-color="#00aaff" stop-opacity=".68"/><stop offset="1" stop-color="#002288" stop-opacity=".28"/></linearGradient></defs></svg></div>
+
+        <!-- Sony slim -->
+        <div class="ro ro5"><svg class="ri" style="left:-9px;top:-24px" width="18" height="48" viewBox="0 0 18 48" fill="none"><rect x="1" y="1" width="16" height="46" rx="8" fill="url(#re)" stroke="url(#res)" stroke-width="1.2"/><rect x="3" y="5" width="12" height="8" rx="2" fill="#030c1c" stroke="rgba(0,200,255,.32)" stroke-width=".7"/><circle cx="9" cy="20" r="4.5" fill="rgba(0,200,255,.08)" stroke="rgba(0,200,255,.42)" stroke-width=".9"/><path d="M9 15.5v2.5M9 24.5v2M5 20h2M13 20h-2" stroke="rgba(0,200,255,.52)" stroke-width=".9" stroke-linecap="round"/><circle cx="9" cy="20" r="1.8" fill="rgba(0,200,255,.2)"/><circle cx="6" cy="30" r="1.8" fill="rgba(0,200,255,.16)" stroke="rgba(0,200,255,.32)" stroke-width=".7"/><circle cx="9" cy="30" r="1.8" fill="rgba(0,200,255,.16)" stroke="rgba(0,200,255,.32)" stroke-width=".7"/><circle cx="12" cy="30" r="1.8" fill="rgba(0,200,255,.16)" stroke="rgba(0,200,255,.32)" stroke-width=".7"/><circle cx="6" cy="36" r="1.8" fill="rgba(0,200,255,.09)" stroke="rgba(0,200,255,.2)" stroke-width=".7"/><circle cx="9" cy="36" r="1.8" fill="rgba(0,200,255,.09)" stroke="rgba(0,200,255,.2)" stroke-width=".7"/><circle cx="12" cy="36" r="1.8" fill="rgba(0,200,255,.09)" stroke="rgba(0,200,255,.2)" stroke-width=".7"/><rect x="4" y="41" width="10" height="5" rx="1.5" fill="rgba(0,200,255,.07)" stroke="rgba(0,200,255,.18)" stroke-width=".7"/><defs><linearGradient id="re" x1="1" y1="1" x2="17" y2="47"><stop stop-color="#0c1e38"/><stop offset="1" stop-color="#04101e"/></linearGradient><linearGradient id="res" x1="1" y1="1" x2="17" y2="47"><stop stop-color="#00ccff" stop-opacity=".68"/><stop offset="1" stop-color="#0033aa" stop-opacity=".22"/></linearGradient></defs></svg></div>
+
+        <!-- Noblex chunky -->
+        <div class="ro ro6"><svg class="ri" style="left:-13px;top:-20px" width="26" height="40" viewBox="0 0 26 40" fill="none"><rect x="1" y="1" width="24" height="38" rx="5" fill="url(#rf)" stroke="url(#rfs)" stroke-width="1.2"/><rect x="4" y="4" width="18" height="10" rx="2" fill="#050f1e" stroke="rgba(0,160,255,.32)" stroke-width=".8"/><rect x="5" y="17" width="7" height="7" rx="1.5" fill="rgba(0,160,255,.09)" stroke="rgba(0,160,255,.28)" stroke-width=".8"/><rect x="14" y="17" width="7" height="7" rx="1.5" fill="rgba(0,160,255,.09)" stroke="rgba(0,160,255,.28)" stroke-width=".8"/><circle cx="13" cy="31" r="4.5" fill="rgba(0,160,255,.09)" stroke="rgba(0,160,255,.38)" stroke-width=".9"/><path d="M13 27v2M13 35v1.5M9.5 31h2M16.5 31h-2" stroke="rgba(0,160,255,.52)" stroke-width=".9" stroke-linecap="round"/><circle cx="13" cy="31" r="1.8" fill="rgba(0,160,255,.22)"/><defs><linearGradient id="rf" x1="1" y1="1" x2="25" y2="39"><stop stop-color="#0e2040"/><stop offset="1" stop-color="#060f22"/></linearGradient><linearGradient id="rfs" x1="1" y1="1" x2="25" y2="39"><stop stop-color="#0088ff" stop-opacity=".68"/><stop offset="1" stop-color="#002266" stop-opacity=".28"/></linearGradient></defs></svg></div>
+
+        <!-- Philips pill -->
+        <div class="ro ro7"><svg class="ri" style="left:-10px;top:-23px" width="20" height="46" viewBox="0 0 20 46" fill="none"><rect x="1" y="1" width="18" height="44" rx="9" fill="url(#rg)" stroke="url(#rgs)" stroke-width="1.2"/><circle cx="10" cy="9" r="3.5" fill="rgba(255,80,80,.18)" stroke="rgba(255,120,120,.45)" stroke-width=".9"/><path d="M10 6.5v1.5M10 10v1.5M7.5 9h1.5M12.5 9h-1.5" stroke="rgba(255,120,120,.55)" stroke-width=".9" stroke-linecap="round"/><circle cx="10" cy="9" r="1.4" fill="rgba(255,100,100,.32)"/><circle cx="10" cy="19" r="5" fill="rgba(0,200,255,.08)" stroke="rgba(0,200,255,.4)" stroke-width=".9"/><path d="M10 14.5v2M10 23.5v1.5M6 19h2M14 19h-2" stroke="rgba(0,200,255,.5)" stroke-width=".9" stroke-linecap="round"/><circle cx="10" cy="19" r="2" fill="rgba(0,200,255,.2)"/><circle cx="6.5" cy="29" r="2" fill="rgba(0,200,255,.14)" stroke="rgba(0,200,255,.28)" stroke-width=".7"/><circle cx="10" cy="29" r="2" fill="rgba(0,200,255,.14)" stroke="rgba(0,200,255,.28)" stroke-width=".7"/><circle cx="13.5" cy="29" r="2" fill="rgba(0,200,255,.14)" stroke="rgba(0,200,255,.28)" stroke-width=".7"/><circle cx="6.5" cy="35" r="2" fill="rgba(0,200,255,.07)" stroke="rgba(0,200,255,.16)" stroke-width=".7"/><circle cx="10" cy="35" r="2" fill="rgba(0,200,255,.07)" stroke="rgba(0,200,255,.16)" stroke-width=".7"/><circle cx="13.5" cy="35" r="2" fill="rgba(0,200,255,.07)" stroke="rgba(0,200,255,.16)" stroke-width=".7"/><rect x="4" y="40" width="12" height="4" rx="2" fill="rgba(0,200,255,.06)" stroke="rgba(0,200,255,.15)" stroke-width=".7"/><defs><linearGradient id="rg" x1="1" y1="1" x2="19" y2="45"><stop stop-color="#101828"/><stop offset="1" stop-color="#050d1c"/></linearGradient><linearGradient id="rgs" x1="1" y1="1" x2="19" y2="45"><stop stop-color="#00ccff" stop-opacity=".62"/><stop offset="1" stop-color="#004499" stop-opacity=".22"/></linearGradient></defs></svg></div>
+
+        <!-- ── ORBIT 3: 5 remotes, r=205px, 36s CCW (smaller) ── -->
+        <div class="ro ro8"><svg class="ri" style="left:-9px;top:-17px" width="18" height="34" viewBox="0 0 18 34" fill="none"><rect x="1" y="1" width="16" height="32" rx="5" fill="url(#rh)" stroke="url(#rhs)" stroke-width="1"/><rect x="3" y="3" width="12" height="7" rx="1.5" fill="#040c18" stroke="rgba(0,212,255,.28)" stroke-width=".6"/><circle cx="9" cy="18" r="4" fill="rgba(0,212,255,.07)" stroke="rgba(0,212,255,.36)" stroke-width=".8"/><path d="M9 14.5v2M9 22.5v1.5M6 18h1.5M12 18h-1.5" stroke="rgba(0,212,255,.48)" stroke-width=".8" stroke-linecap="round"/><circle cx="9" cy="18" r="1.6" fill="rgba(0,212,255,.2)"/><circle cx="6" cy="27" r="1.6" fill="rgba(0,212,255,.14)" stroke="rgba(0,212,255,.28)" stroke-width=".6"/><circle cx="9" cy="27" r="1.6" fill="rgba(0,212,255,.14)" stroke="rgba(0,212,255,.28)" stroke-width=".6"/><circle cx="12" cy="27" r="1.6" fill="rgba(0,212,255,.14)" stroke="rgba(0,212,255,.28)" stroke-width=".6"/><defs><linearGradient id="rh" x1="1" y1="1" x2="17" y2="33"><stop stop-color="#0d1e38"/><stop offset="1" stop-color="#050f1e"/></linearGradient><linearGradient id="rhs" x1="1" y1="1" x2="17" y2="33"><stop stop-color="#00d4ff" stop-opacity=".58"/><stop offset="1" stop-color="#0044bb" stop-opacity=".18"/></linearGradient></defs></svg></div>
+
+        <div class="ro ro9"><svg class="ri" style="left:-8px;top:-18px" width="16" height="36" viewBox="0 0 16 36" fill="none"><rect x="1" y="1" width="14" height="34" rx="7" fill="url(#ri)" stroke="url(#ris)" stroke-width="1"/><circle cx="8" cy="13" r="4" fill="rgba(0,180,255,.08)" stroke="rgba(0,180,255,.38)" stroke-width=".8"/><path d="M8 9.5v1.5M8 17v1M5 13h1.5M11 13h-1.5" stroke="rgba(0,180,255,.5)" stroke-width=".8" stroke-linecap="round"/><circle cx="8" cy="13" r="1.5" fill="rgba(0,180,255,.22)"/><circle cx="5.5" cy="22" r="1.6" fill="rgba(0,180,255,.14)" stroke="rgba(0,180,255,.28)" stroke-width=".6"/><circle cx="8" cy="22" r="1.6" fill="rgba(0,180,255,.14)" stroke="rgba(0,180,255,.28)" stroke-width=".6"/><circle cx="10.5" cy="22" r="1.6" fill="rgba(0,180,255,.14)" stroke="rgba(0,180,255,.28)" stroke-width=".6"/><circle cx="5.5" cy="28" r="1.6" fill="rgba(0,180,255,.07)" stroke="rgba(0,180,255,.16)" stroke-width=".6"/><circle cx="8" cy="28" r="1.6" fill="rgba(0,180,255,.07)" stroke="rgba(0,180,255,.16)" stroke-width=".6"/><circle cx="10.5" cy="28" r="1.6" fill="rgba(0,180,255,.07)" stroke="rgba(0,180,255,.16)" stroke-width=".6"/><defs><linearGradient id="ri" x1="1" y1="1" x2="15" y2="35"><stop stop-color="#101e38"/><stop offset="1" stop-color="#060e1e"/></linearGradient><linearGradient id="ris" x1="1" y1="1" x2="15" y2="35"><stop stop-color="#00aaff" stop-opacity=".58"/><stop offset="1" stop-color="#002288" stop-opacity=".18"/></linearGradient></defs></svg></div>
+
+        <div class="ro ro10"><svg class="ri" style="left:-10px;top:-15px" width="20" height="30" viewBox="0 0 20 30" fill="none"><rect x="1" y="1" width="18" height="28" rx="4" fill="url(#rj)" stroke="url(#rjs)" stroke-width="1"/><rect x="3" y="3" width="14" height="8" rx="1.5" fill="#040c18" stroke="rgba(0,160,255,.28)" stroke-width=".6"/><rect x="3" y="14" width="6" height="5" rx="1.2" fill="rgba(0,160,255,.09)" stroke="rgba(0,160,255,.22)" stroke-width=".6"/><rect x="11" y="14" width="6" height="5" rx="1.2" fill="rgba(0,160,255,.09)" stroke="rgba(0,160,255,.22)" stroke-width=".6"/><circle cx="10" cy="24" r="3.5" fill="rgba(0,160,255,.09)" stroke="rgba(0,160,255,.34)" stroke-width=".8"/><path d="M10 21v1.5M10 27v1M7.5 24h1.5M12.5 24h-1.5" stroke="rgba(0,160,255,.48)" stroke-width=".8" stroke-linecap="round"/><defs><linearGradient id="rj" x1="1" y1="1" x2="19" y2="29"><stop stop-color="#0c1e38"/><stop offset="1" stop-color="#050d1c"/></linearGradient><linearGradient id="rjs" x1="1" y1="1" x2="19" y2="29"><stop stop-color="#0088ff" stop-opacity=".55"/><stop offset="1" stop-color="#002266" stop-opacity=".18"/></linearGradient></defs></svg></div>
+
+        <div class="ro ro11"><svg class="ri" style="left:-8px;top:-18px" width="16" height="36" viewBox="0 0 16 36" fill="none"><rect x="1" y="1" width="14" height="34" rx="6" fill="url(#rk)" stroke="url(#rks)" stroke-width="1"/><circle cx="8" cy="8" r="3" fill="rgba(255,80,80,.16)" stroke="rgba(255,120,120,.38)" stroke-width=".7"/><path d="M8 5.5v1M8 9.5v1M5.8 8h1M10.2 8h-1" stroke="rgba(255,120,120,.55)" stroke-width=".8" stroke-linecap="round"/><circle cx="8" cy="17" r="4" fill="rgba(0,200,255,.08)" stroke="rgba(0,200,255,.36)" stroke-width=".8"/><path d="M8 13.5v1.5M8 21v1M5 17h1.5M11 17h-1.5" stroke="rgba(0,200,255,.48)" stroke-width=".8" stroke-linecap="round"/><circle cx="8" cy="17" r="1.5" fill="rgba(0,200,255,.2)"/><circle cx="5.5" cy="26" r="1.5" fill="rgba(0,200,255,.13)" stroke="rgba(0,200,255,.26)" stroke-width=".6"/><circle cx="8" cy="26" r="1.5" fill="rgba(0,200,255,.13)" stroke="rgba(0,200,255,.26)" stroke-width=".6"/><circle cx="10.5" cy="26" r="1.5" fill="rgba(0,200,255,.13)" stroke="rgba(0,200,255,.26)" stroke-width=".6"/><circle cx="5.5" cy="31.5" r="1.5" fill="rgba(0,200,255,.07)" stroke="rgba(0,200,255,.16)" stroke-width=".6"/><circle cx="8" cy="31.5" r="1.5" fill="rgba(0,200,255,.07)" stroke="rgba(0,200,255,.16)" stroke-width=".6"/><circle cx="10.5" cy="31.5" r="1.5" fill="rgba(0,200,255,.07)" stroke="rgba(0,200,255,.16)" stroke-width=".6"/><defs><linearGradient id="rk" x1="1" y1="1" x2="15" y2="35"><stop stop-color="#101828"/><stop offset="1" stop-color="#050c1e"/></linearGradient><linearGradient id="rks" x1="1" y1="1" x2="15" y2="35"><stop stop-color="#00ccff" stop-opacity=".58"/><stop offset="1" stop-color="#003399" stop-opacity=".18"/></linearGradient></defs></svg></div>
+
+        <div class="ro ro12"><svg class="ri" style="left:-9px;top:-17px" width="18" height="34" viewBox="0 0 18 34" fill="none"><rect x="1" y="1" width="16" height="32" rx="5" fill="url(#rl)" stroke="url(#rls)" stroke-width="1"/><rect x="3" y="3" width="12" height="7" rx="1.5" fill="#04101e" stroke="rgba(0,180,255,.28)" stroke-width=".6"/><circle cx="9" cy="18" r="4" fill="rgba(0,150,255,.07)" stroke="rgba(0,150,255,.35)" stroke-width=".8"/><path d="M9 14.5v2M9 22.5v1.5M6 18h1.5M12 18h-1.5" stroke="rgba(0,150,255,.48)" stroke-width=".8" stroke-linecap="round"/><circle cx="9" cy="18" r="1.6" fill="rgba(0,150,255,.2)"/><circle cx="6" cy="27" r="1.6" fill="rgba(0,150,255,.13)" stroke="rgba(0,150,255,.25)" stroke-width=".6"/><circle cx="9" cy="27" r="1.6" fill="rgba(0,150,255,.13)" stroke="rgba(0,150,255,.25)" stroke-width=".6"/><circle cx="12" cy="27" r="1.6" fill="rgba(0,150,255,.13)" stroke="rgba(0,150,255,.25)" stroke-width=".6"/><defs><linearGradient id="rl" x1="1" y1="1" x2="17" y2="33"><stop stop-color="#0a1a30"/><stop offset="1" stop-color="#050c1c"/></linearGradient><linearGradient id="rls" x1="1" y1="1" x2="17" y2="33"><stop stop-color="#00aaff" stop-opacity=".52"/><stop offset="1" stop-color="#002288" stop-opacity=".18"/></linearGradient></defs></svg></div>
+
+        <!-- ── GLOBE CENTER ── -->
+        <div class="globe-center">
+          <svg class="globe-svg" viewBox="0 0 165 165" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="gf" cx="37%" cy="28%" r="68%"><stop stop-color="#1a5aaa"/><stop offset=".45" stop-color="#0a2f6a"/><stop offset="1" stop-color="#030e2a"/></radialGradient>
+              <radialGradient id="ga" cx="37%" cy="28%" r="65%"><stop stop-color="rgba(0,200,255,.32)"/><stop offset=".55" stop-color="rgba(0,100,200,.08)"/><stop offset="1" stop-color="transparent"/></radialGradient>
+              <linearGradient id="gs" x1="28" y1="14" x2="137" y2="151"><stop stop-color="#00d4ff" stop-opacity=".9"/><stop offset=".5" stop-color="#0055ee" stop-opacity=".45"/><stop offset="1" stop-color="#0033aa" stop-opacity=".7"/></linearGradient>
+              <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <clipPath id="gc"><circle cx="82.5" cy="82.5" r="68"/></clipPath>
+            </defs>
+            <!-- Atmosphere rings -->
+            <circle cx="82.5" cy="82.5" r="75" fill="rgba(0,80,200,.07)" stroke="rgba(0,180,255,.12)" stroke-width="2.5"/>
+            <circle cx="82.5" cy="82.5" r="72" fill="rgba(0,120,255,.05)" stroke="rgba(0,212,255,.07)" stroke-width="1"/>
+            <!-- Globe body -->
+            <circle cx="82.5" cy="82.5" r="68" fill="url(#gf)" stroke="url(#gs)" stroke-width="1.7"/>
+            <circle cx="82.5" cy="82.5" r="68" fill="url(#ga)"/>
+            <!-- Grid lines -->
+            <g clip-path="url(#gc)" stroke="rgba(0,180,255,.18)" stroke-width=".75" fill="none">
+              <ellipse cx="82.5" cy="82.5" rx="68" ry="17"/>
+              <ellipse cx="82.5" cy="82.5" rx="68" ry="37"/>
+              <ellipse cx="82.5" cy="82.5" rx="68" ry="55"/>
+              <line x1="14.5" y1="82.5" x2="150.5" y2="82.5"/>
+              <ellipse cx="82.5" cy="82.5" rx="17" ry="68"/>
+              <ellipse cx="82.5" cy="82.5" rx="37" ry="68"/>
+              <ellipse cx="82.5" cy="82.5" rx="55" ry="68"/>
+              <line x1="82.5" y1="14.5" x2="82.5" y2="150.5"/>
+            </g>
+            <!-- Continents -->
+            <g clip-path="url(#gc)" filter="url(#glow)">
+              <path d="M56 40 L76 36 L87 42 L92 53 L85 63 L75 68 L65 66 L55 58 L52 48Z" fill="rgba(0,220,180,.23)" stroke="rgba(0,255,200,.38)" stroke-width=".7"/>
+              <path d="M66 73 L79 70 L86 76 L88 90 L84 106 L76 116 L68 110 L63 98 L61 84Z" fill="rgba(0,200,150,.2)" stroke="rgba(0,240,180,.35)" stroke-width=".7"/>
+              <path d="M97 42 L108 40 L114 48 L110 58 L103 60 L96 53Z" fill="rgba(0,200,150,.17)" stroke="rgba(0,220,160,.28)" stroke-width=".7"/>
+              <path d="M97 66 L110 64 L116 76 L113 93 L106 103 L98 98 L94 86 L95 73Z" fill="rgba(0,200,150,.17)" stroke="rgba(0,220,160,.28)" stroke-width=".7"/>
+              <path d="M118 44 L130 46 L134 56 L128 62 L120 58 L116 50Z" fill="rgba(0,190,140,.14)" stroke="rgba(0,210,155,.25)" stroke-width=".7"/>
+            </g>
+            <!-- Specular glint -->
+            <ellipse cx="63" cy="56" rx="17" ry="9" fill="rgba(255,255,255,.07)" transform="rotate(-25 63 56)"/>
+            <ellipse cx="58" cy="52" rx="7" ry="3.5" fill="rgba(255,255,255,.1)" transform="rotate(-25 58 52)"/>
+            <!-- WiFi signal -->
+            <path d="M70 17.5Q82.5 9.5 95 17.5" stroke="#00d4ff" stroke-width="2.5" fill="none" stroke-linecap="round" filter="url(#glow)"/>
+            <path d="M75 11.5Q82.5 5 90 11.5" stroke="#00d4ff" stroke-width="2" fill="none" stroke-linecap="round" opacity=".68" filter="url(#glow)"/>
+            <path d="M79 6.5Q82.5 2.5 86 6.5" stroke="#00d4ff" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".45"/>
+            <circle cx="82.5" cy="21" r="2.4" fill="#00d4ff" fill-opacity=".9" filter="url(#glow)"/>
+          </svg>
+          <div class="logo-text-block">
+            <span class="lt1">CONTROLA</span>
+            <span class="lt2">TU MUNDO</span>
+          </div>
+        </div>
+
+      </div><!-- /logo-scene -->
+    </div><!-- /hero-visual -->
+  </div><!-- /hero-content -->
 </section>
 
-<!-- STATS BAR -->
+<!-- ══════════════ STATS ══════════════ -->
 <div class="stats-bar">
   <div class="stats-inner">
-    <div class="stat">
-      <span class="stat-num">100+</span>
-      <span class="stat-label">Modelos disponibles</span>
-    </div>
-    <div class="stat">
-      <span class="stat-num">0$</span>
-      <span class="stat-label">Costo de envío</span>
-    </div>
-    <div class="stat">
-      <span class="stat-num">24h</span>
-      <span class="stat-label">Entrega en Zona Oeste</span>
-    </div>
-    <div class="stat">
-      <span class="stat-num">⭐ 5.0</span>
-      <span class="stat-label">Calificación clientes</span>
-    </div>
+    <div class="stat"><span class="stat-num">100+</span><span class="stat-label">Modelos disponibles</span></div>
+    <div class="stat"><span class="stat-num">0 $</span><span class="stat-label">Costo de envío</span></div>
+    <div class="stat"><span class="stat-num">24 h</span><span class="stat-label">Entrega Zona Oeste</span></div>
+    <div class="stat"><span class="stat-num">⭐ 5.0</span><span class="stat-label">Calificación</span></div>
   </div>
 </div>
 
-<!-- MARCAS -->
+<!-- ══════════════ MARCAS ══════════════ -->
 <section id="marcas">
   <div class="section-inner">
     <div class="fade-up">
@@ -810,41 +349,17 @@
       <p class="section-desc">Trabajamos con las principales marcas del mercado. Si no encontrás tu modelo, consultanos igual.</p>
     </div>
     <div class="brands-grid fade-up">
-      <div class="brand-card">
-        <div class="brand-icon">📺</div>
-        <div class="brand-name">Samsung</div>
-        <div class="brand-desc">Controles originales y compatibles para todos los modelos Smart TV Samsung, incluyendo QLED y Crystal UHD.</div>
-      </div>
-      <div class="brand-card">
-        <div class="brand-icon">🖥️</div>
-        <div class="brand-name">LG</div>
-        <div class="brand-desc">Magic Remote y controles estándar para Smart TV LG con WebOS. Todos los modelos desde 2015 en adelante.</div>
-      </div>
-      <div class="brand-card">
-        <div class="brand-icon">🎬</div>
-        <div class="brand-name">Sony</div>
-        <div class="brand-desc">Controles para Android TV, Google TV y modelos Bravia de Sony. Compatibles con todos los años.</div>
-      </div>
-      <div class="brand-card">
-        <div class="brand-icon">📡</div>
-        <div class="brand-name">TCL</div>
-        <div class="brand-desc">Controles Roku TV y Android TV para televisores TCL. Función de voz y navegación incluida.</div>
-      </div>
-      <div class="brand-card">
-        <div class="brand-icon">🌟</div>
-        <div class="brand-name">Philips</div>
-        <div class="brand-desc">Controles originales para Smart TV Philips con Android. Compatibles con modelos Ambilight y estándar.</div>
-      </div>
-      <div class="brand-card">
-        <div class="brand-icon">🎯</div>
-        <div class="brand-name">Otras Marcas</div>
-        <div class="brand-desc">Noblex, BGH, Sanyo, Hitachi, RCA, Vizio y más. Consultanos si no ves tu marca en el listado.</div>
-      </div>
+      <div class="brand-card"><div class="brand-icon">📺</div><div class="brand-name">Samsung</div><div class="brand-desc">Controles originales y compatibles para todos los modelos Smart TV Samsung, incluyendo QLED y Crystal UHD.</div></div>
+      <div class="brand-card"><div class="brand-icon">🖥️</div><div class="brand-name">LG</div><div class="brand-desc">Magic Remote y controles estándar para Smart TV LG con WebOS. Modelos desde 2015 en adelante.</div></div>
+      <div class="brand-card"><div class="brand-icon">🎬</div><div class="brand-name">Sony</div><div class="brand-desc">Controles para Android TV, Google TV y modelos Bravia de Sony. Compatibles con todos los años.</div></div>
+      <div class="brand-card"><div class="brand-icon">📡</div><div class="brand-name">TCL</div><div class="brand-desc">Controles Roku TV y Android TV para televisores TCL. Función de voz y navegación incluida.</div></div>
+      <div class="brand-card"><div class="brand-icon">🌟</div><div class="brand-name">Philips</div><div class="brand-desc">Controles originales para Smart TV Philips con Android. Compatibles con modelos Ambilight y estándar.</div></div>
+      <div class="brand-card"><div class="brand-icon">🎯</div><div class="brand-name">Otras Marcas</div><div class="brand-desc">Noblex, BGH, Sanyo, Hitachi, RCA, Vizio y más. Consultanos si no ves tu marca en el listado.</div></div>
     </div>
   </div>
 </section>
 
-<!-- CONSULTA / FORM -->
+<!-- ══════════════ CONSULTA ══════════════ -->
 <section class="form-section" id="consulta">
   <div class="section-inner">
     <div class="form-layout">
@@ -853,51 +368,21 @@
         <h2 class="section-title">¿Necesitás un control?</h2>
         <p class="section-desc">Completá el formulario y te contactamos al instante por WhatsApp para darte el precio exacto.</p>
         <div class="steps">
-          <div class="step">
-            <div class="step-num">1</div>
-            <div class="step-text">
-              <strong>Completá tus datos</strong>
-              <span>Dejanos tu nombre, número y una descripción del control que necesitás.</span>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">2</div>
-            <div class="step-text">
-              <strong>Enviá fotos por WhatsApp</strong>
-              <span>Mandanos fotos del control viejo o del código que figura en tu TV para cotizar exacto.</span>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">3</div>
-            <div class="step-text">
-              <strong>Recibís en tu casa</strong>
-              <span>Coordinamos el envío sin costo en toda la Zona Oeste de Buenos Aires.</span>
-            </div>
-          </div>
+          <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Completá tus datos</strong><span>Dejanos tu nombre, número y una descripción del control que necesitás.</span></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Enviá fotos por WhatsApp</strong><span>Mandanos fotos del control viejo o del código de tu TV para cotizarte exacto.</span></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Recibís en tu casa</strong><span>Coordinamos el envío sin costo en toda la Zona Oeste de Buenos Aires.</span></div></div>
         </div>
       </div>
-
       <div class="contact-form fade-up">
-        <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--white);margin-bottom:24px;">Enviá tu consulta</p>
+        <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:#fff;margin-bottom:22px;">Enviá tu consulta</p>
         <div class="form-row">
-          <div class="form-group">
-            <label>Nombre</label>
-            <input type="text" id="nombre" placeholder="Tu nombre completo">
-          </div>
-          <div class="form-group">
-            <label>Celular</label>
-            <input type="tel" id="celular" placeholder="11 xxxx-xxxx">
-          </div>
+          <div class="form-group"><label>Nombre</label><input type="text" id="nombre" placeholder="Tu nombre completo"></div>
+          <div class="form-group"><label>Celular</label><input type="tel" id="celular" placeholder="11 xxxx-xxxx"></div>
         </div>
-        <div class="form-group">
-          <label>¿Qué control necesitás?</label>
-          <textarea id="consulta_txt" rows="3" placeholder="Ej: Control Samsung Smart TV modelo UN43J5290, año 2019..."></textarea>
-        </div>
-        <div class="form-note">
-          📸 <strong>¿Tenés foto del control o del código del TV?</strong> ¡Perfecto! Envialas por WhatsApp después de mandar este formulario para cotizarte con exactitud.
-        </div>
-        <a id="wa-btn" href="#" class="btn-submit" onclick="abrirWA(event)">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <div class="form-group"><label>¿Qué control necesitás?</label><textarea id="consulta_txt" rows="3" placeholder="Ej: Control Samsung Smart TV UN43J5290, año 2019..."></textarea></div>
+        <div class="form-note">📸 <strong>¿Tenés foto del control o del código del TV?</strong> ¡Perfecto! Envialas por WhatsApp luego para cotizarte con exactitud.</div>
+        <a href="#" class="btn-submit" onclick="abrirWA(event)">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           Abrir WhatsApp y consultar
         </a>
       </div>
@@ -905,71 +390,58 @@
   </div>
 </section>
 
-<!-- PAGO -->
-<section class="payment-section" id="pago">
+<!-- ══════════════ PAGO ══════════════ -->
+<section id="pago">
   <div class="section-inner">
     <div class="payment-layout">
-      <div class="fade-up">
+      <div class="fade-up" style="padding-top:12px;">
         <p class="section-tag">Pagos</p>
         <h2 class="section-title">Pagá fácil y seguro</h2>
         <p class="section-desc">Procesamos tus pagos a través de Mercado Pago. Aceptamos todas las tarjetas y medios digitales.</p>
-        <div class="payment-info">
-          <div class="pay-feature">
-            <div class="pay-icon">💳</div>
-            <div>
-              <strong>Crédito y débito</strong>
-              <span>Todas las tarjetas bancarias argentinas. Hasta 3 cuotas sin interés disponibles.</span>
-            </div>
-          </div>
-          <div class="pay-feature">
-            <div class="pay-icon">📱</div>
-            <div>
-              <strong>Transferencia y QR</strong>
-              <span>Alias o CVU, Mercado Pago, MODO y QR. Acreditación inmediata.</span>
-            </div>
-          </div>
-          <div class="pay-feature">
-            <div class="pay-icon">🔒</div>
-            <div>
-              <strong>Compra protegida</strong>
-              <span>Tus datos están protegidos con cifrado SSL y la seguridad de Mercado Pago.</span>
-            </div>
-          </div>
-        </div>
+        <div class="pay-feature"><div class="pay-icon">💳</div><div><strong>Crédito y débito</strong><span>Todas las tarjetas bancarias argentinas. Hasta 3 cuotas sin interés disponibles.</span></div></div>
+        <div class="pay-feature"><div class="pay-icon">📱</div><div><strong>Transferencia y QR</strong><span>Alias o CVU, Mercado Pago, MODO y QR. Acreditación inmediata.</span></div></div>
+        <div class="pay-feature"><div class="pay-icon">🔒</div><div><strong>Compra protegida</strong><span>Tus datos protegidos con cifrado SSL y la seguridad de Mercado Pago.</span></div></div>
       </div>
-
       <div class="payment-form fade-up">
         <div class="mp-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="#4db8ff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#4db8ff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
           Mercado Pago — Pago seguro
         </div>
-        <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--white);margin-bottom:24px;">Realizar pago</p>
-        <div class="form-group">
-          <label>Monto a pagar (ARS)</label>
-          <input type="number" id="monto" placeholder="0.00" min="0" step="0.01">
-        </div>
-        <div class="form-group">
-          <label>Descripción</label>
-          <input type="text" id="descripcion_pago" placeholder="Ej: Control remoto Samsung Smart TV">
-        </div>
-        <div class="form-group">
-          <label>Tu nombre</label>
-          <input type="text" id="nombre_pago" placeholder="Nombre completo">
-        </div>
+        <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:#fff;margin-bottom:22px;">Realizar pago</p>
+        <div class="form-group"><label>Monto a pagar (ARS)</label><input type="number" id="monto" placeholder="0.00" min="0" step="0.01"></div>
+        <div class="form-group"><label>Descripción</label><input type="text" id="descripcion_pago" placeholder="Ej: Control remoto Samsung Smart TV"></div>
+        <div class="form-group"><label>Tu nombre</label><input type="text" id="nombre_pago" placeholder="Nombre completo"></div>
         <button class="btn-submit" onclick="procesarPago()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
           Pagar con Mercado Pago
         </button>
-        <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:14px;">Aceptamos todas las tarjetas de crédito y débito · 🔒 Pago seguro</p>
+        <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:14px;">Todas las tarjetas · 🔒 Pago seguro</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ══════════════ FOOTER ══════════════ -->
 <footer>
-  <div class="footer-logo">Controla Tu Mundo</div>
-  <div class="footer-sub">Controles Remotos para Smart TV · Zona Oeste, Buenos Aires</div>
+  <div class="footer-logo-wrap">
+    <svg width="210" height="55" viewBox="0 0 210 55" fill="none">
+      <circle cx="27.5" cy="27.5" r="22" fill="url(#fgf)" stroke="url(#fgs)" stroke-width="1.5"/>
+      <ellipse cx="27.5" cy="27.5" rx="9" ry="22" stroke="rgba(0,212,255,.28)" stroke-width=".8" fill="none"/>
+      <line x1="5.5" y1="27.5" x2="49.5" y2="27.5" stroke="rgba(0,212,255,.28)" stroke-width=".8"/>
+      <ellipse cx="27.5" cy="27.5" rx="22" ry="8" stroke="rgba(0,212,255,.18)" stroke-width=".7" fill="none"/>
+      <path d="M20 9Q27.5 5 35 9" stroke="#00d4ff" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M23.5 5Q27.5 2 31.5 5" stroke="#00d4ff" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".55"/>
+      <circle cx="27.5" cy="27.5" r="22" fill="url(#fga)"/>
+      <text x="62" y="22" font-family="Syne,sans-serif" font-weight="800" font-size="19" fill="white" letter-spacing="1">CONTROLA</text>
+      <text x="63" y="41" font-family="Syne,sans-serif" font-weight="600" font-size="12" fill="#00d4ff" letter-spacing="4.5">TU MUNDO</text>
+      <defs>
+        <radialGradient id="fgf" cx="35%" cy="28%"><stop stop-color="#1a5aaa"/><stop offset="1" stop-color="#061530"/></radialGradient>
+        <radialGradient id="fga" cx="35%" cy="28%"><stop stop-color="rgba(0,200,255,.22)"/><stop offset=".6" stop-color="transparent"/></radialGradient>
+        <linearGradient id="fgs" x1="5" y1="5" x2="50" y2="50"><stop stop-color="#00d4ff" stop-opacity=".8"/><stop offset="1" stop-color="#0044cc" stop-opacity=".35"/></linearGradient>
+      </defs>
+    </svg>
+  </div>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:24px;">Controles Remotos para Smart TV · Zona Oeste, Buenos Aires</div>
   <div class="footer-links">
     <a href="#marcas">Modelos</a>
     <a href="#consulta">Consultar</a>
@@ -980,43 +452,30 @@
 </footer>
 
 <script>
-  // WhatsApp form
-  function abrirWA(e) {
-    e.preventDefault();
-    const nombre = document.getElementById('nombre').value.trim();
-    const celular = document.getElementById('celular').value.trim();
-    const consulta = document.getElementById('consulta_txt').value.trim();
-    let msg = 'Hola Alejandro, quiero consultar sobre controles remotos.';
-    if (nombre) msg += `\n\n👤 Nombre: ${nombre}`;
-    if (celular) msg += `\n📞 Celular: ${celular}`;
-    if (consulta) msg += `\n💬 Consulta: ${consulta}`;
-    window.open(`https://wa.me/5491140970446?text=${encodeURIComponent(msg)}`, '_blank');
-  }
-
-  // Payment
-  function procesarPago() {
-    const monto = document.getElementById('monto').value;
-    const desc = document.getElementById('descripcion_pago').value.trim();
-    const nombre = document.getElementById('nombre_pago').value.trim();
-    if (!monto || parseFloat(monto) <= 0) { alert('Por favor ingresá un monto válido'); return; }
-    let msg = `Hola Alejandro, quiero realizar un pago de $${monto} ARS.`;
-    if (desc) msg += `\nDetalle: ${desc}`;
-    if (nombre) msg += `\nNombre: ${nombre}`;
-    msg += '\nPor favor envíame el link de pago de Mercado Pago.';
-    window.open(`https://wa.me/5491140970446?text=${encodeURIComponent(msg)}`, '_blank');
-  }
-
-  // Fade-in on scroll
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+function abrirWA(e){
+  e.preventDefault();
+  const n=document.getElementById('nombre').value.trim();
+  const c=document.getElementById('celular').value.trim();
+  const q=document.getElementById('consulta_txt').value.trim();
+  let m='Hola Alejandro, quiero consultar sobre controles remotos.';
+  if(n) m+=`\n\n👤 Nombre: ${n}`;
+  if(c) m+=`\n📞 Celular: ${c}`;
+  if(q) m+=`\n💬 Consulta: ${q}`;
+  window.open(`https://wa.me/5491140970446?text=${encodeURIComponent(m)}`,'_blank');
+}
+function procesarPago(){
+  const m=document.getElementById('monto').value;
+  const d=document.getElementById('descripcion_pago').value.trim();
+  const n=document.getElementById('nombre_pago').value.trim();
+  if(!m||parseFloat(m)<=0){alert('Por favor ingresá un monto válido');return;}
+  let msg=`Hola Alejandro, quiero realizar un pago de $${m} ARS.`;
+  if(d) msg+=`\nDetalle: ${d}`;
+  if(n) msg+=`\nNombre: ${n}`;
+  msg+='\nPor favor envíame el link de pago de Mercado Pago.';
+  window.open(`https://wa.me/5491140970446?text=${encodeURIComponent(msg)}`,'_blank');
+}
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.1});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 </script>
-
 </body>
 </html>
